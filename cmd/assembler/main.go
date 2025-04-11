@@ -16,10 +16,8 @@ func main() {
 
 	asmFile := os.Args[1]
 
-	// Obtém os tokens do arquivo de assembly.
 	tokens := lexer.GetTokens(asmFile)
 
-	// Cria uma nova instância do assembler.
 	asmb := assembler.NewAssembler(tokens)
 
 	// Primeira passagem: coleta rótulos e define o PC.
@@ -32,7 +30,6 @@ func main() {
 		log.Fatalf("Erro na segunda passagem: %v", err)
 	}
 
-	// Grava o arquivo .mem com o cabeçalho e o código gerado.
 	if err := asmb.WriteMEM("io/build/output.mem"); err != nil {
 		log.Fatalf("Erro ao escrever o arquivo .mem: %v", err)
 	}

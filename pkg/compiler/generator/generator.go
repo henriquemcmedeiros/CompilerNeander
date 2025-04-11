@@ -63,7 +63,6 @@ func GenerateASM(instrucoes []parser.Instrucao) ASMProgram {
 				prog.Data = append(prog.Data, fmt.Sprintf("%s DB 00", tmp))
 
 				if tok.Valor == "*" {
-					// Multiplicação simulada com somas (right deve ser constante)
 					prog.Code = append(prog.Code, fmt.Sprintf("LDA %s", left))
 					value := 0
 					if valStr := right; len(valStr) > 6 && valStr[:6] == "CONST_" {
@@ -82,9 +81,9 @@ func GenerateASM(instrucoes []parser.Instrucao) ASMProgram {
 					case "+":
 						prog.Code = append(prog.Code, fmt.Sprintf("ADD %s", right))
 					case "-":
-						prog.Code = append(prog.Code, fmt.Sprintf("NOT"))
+						prog.Code = append(prog.Code, "NOT")
 						prog.Code = append(prog.Code, fmt.Sprintf("ADD %s", right))
-						prog.Code = append(prog.Code, fmt.Sprintf("ADD CONST_01"))
+						prog.Code = append(prog.Code, "ADD CONST_01")
 						if !constSet["CONST_01"] {
 							prog.Data = append(prog.Data, "CONST_01 DB 01")
 							constSet["CONST_01"] = true
@@ -109,7 +108,6 @@ func GenerateASM(instrucoes []parser.Instrucao) ASMProgram {
 		prog.Data = append(prog.Data, fmt.Sprintf("%s DB 00", v))
 	}
 
-	// Adiciona variáveis de destino que não estavam nas expressões
 	for _, inst := range instrucoes {
 		if !varsUsadas[inst.Var] {
 			prog.Data = append(prog.Data, fmt.Sprintf("%s DB 00", inst.Var))

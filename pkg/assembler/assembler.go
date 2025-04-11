@@ -27,13 +27,12 @@ var (
 	}
 )
 
-// Assembler mantém o estado do processo de montagem.
 type Assembler struct {
 	Tokens  []lexer.Token
-	PC      uint8            // Contador de programa (único para ambas as seções)
-	Output  []uint8          // Buffer de memória gerado (512 bytes)
-	Labels  map[string]uint8 // Tabela de rótulos
-	StartPC uint8            // Onde começa a escrever as instruções (do ORG da seção CODE)
+	PC      uint8         
+	Output  []uint8
+	Labels  map[string]uint8
+	StartPC uint8
 }
 
 // NewAssembler cria uma instância do assembler.

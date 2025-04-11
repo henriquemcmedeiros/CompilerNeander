@@ -101,19 +101,19 @@ func (p *Parser) parseInstrucao() (Instrucao, error) {
 }
 
 func (p *Parser) parseExpressao() ([]lexer.Token, error) {
-	saída := []lexer.Token{}
+	saida := []lexer.Token{}
 	pilha := []lexer.Token{}
 
 	for {
 		tok := p.current()
 		if tok.Tipo == lexer.TOKEN_NUM || tok.Tipo == lexer.TOKEN_VAR {
-			saída = append(saída, tok)
+			saida = append(saida, tok)
 			p.advance()
 		} else if tok.Tipo == lexer.TOKEN_OP {
 			for len(pilha) > 0 {
 				top := pilha[len(pilha)-1]
 				if top.Tipo == lexer.TOKEN_OP && precedencia[top.Valor] >= precedencia[tok.Valor] {
-					saída = append(saída, top)
+					saida = append(saida, top)
 					pilha = pilha[:len(pilha)-1]
 				} else {
 					break
@@ -126,7 +126,7 @@ func (p *Parser) parseExpressao() ([]lexer.Token, error) {
 			p.advance()
 		} else if tok.Tipo == lexer.TOKEN_FECHAPAR {
 			for len(pilha) > 0 && pilha[len(pilha)-1].Tipo != lexer.TOKEN_ABREPAR {
-				saída = append(saída, pilha[len(pilha)-1])
+				saida = append(saida, pilha[len(pilha)-1])
 				pilha = pilha[:len(pilha)-1]
 			}
 			if len(pilha) == 0 || pilha[len(pilha)-1].Tipo != lexer.TOKEN_ABREPAR {
@@ -143,9 +143,9 @@ func (p *Parser) parseExpressao() ([]lexer.Token, error) {
 		if pilha[len(pilha)-1].Tipo == lexer.TOKEN_ABREPAR {
 			return nil, fmt.Errorf("Parêntese não fechado")
 		}
-		saída = append(saída, pilha[len(pilha)-1])
+		saida = append(saida, pilha[len(pilha)-1])
 		pilha = pilha[:len(pilha)-1]
 	}
 
-	return saída, nil
+	return saida, nil
 }
