@@ -13,7 +13,7 @@ import (
 
 func main() {
 	if len(os.Args) < 2 {
-		log.Fatal("Uso: compiler <arquivo.txt>")
+		log.Fatal("Uso: go run cmd/compiler/main.go <arquivo.lfh> (exemplo: io/linguagemCriada/program.ldh)")
 	}
 
 	inputFile := os.Args[1]
@@ -42,5 +42,5 @@ func main() {
 		log.Fatalf("Erro ao salvar arquivo .asm: %v", err)
 	}
 
-	fmt.Println("Arquivo asm/output.asm gerado com sucesso!")
+	fmt.Println("Arquivo output.asm gerado com sucesso na pasta io/asm/output.asm")
 }

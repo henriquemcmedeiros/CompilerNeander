@@ -8,7 +8,7 @@ import (
 
 func main() { 
 	if len(os.Args) < 2 { 
-		log.Fatal("Uso: encoder <arquivo.mem>") 
+		log.Fatal("Uso: go run cmd/encoder/main.go <arquivo.mem> (exemplo: io/build/output.mem)") 
 	}
 
 	memFile := os.Args[1]

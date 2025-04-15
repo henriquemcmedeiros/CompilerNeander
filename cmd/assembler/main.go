@@ -11,7 +11,7 @@ import (
 
 func main() {
 	if len(os.Args) < 2 {
-		log.Fatal("Uso: assembler <arquivo.asm>")
+		log.Fatal("Uso: go run cmd/assembler/main.go <arquivo.asm> (exemplo: io/asm/output.asm)")
 	}
 
 	asmFile := os.Args[1]
@@ -34,5 +34,5 @@ func main() {
 		log.Fatalf("Erro ao escrever o arquivo .mem: %v", err)
 	}
 
-	fmt.Println("Arquivo .mem gerado com sucesso!")
+	fmt.Println("Arquivo .mem gerado com sucesso na pasta io/build/output.mem")
 }
