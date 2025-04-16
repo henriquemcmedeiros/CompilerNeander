@@ -7,7 +7,7 @@ import (
 
 type Instrucao struct {
 	Var  string
-	Expr []lexer.Token // Expressão em RPN
+	Expr []lexer.Token
 }
 
 type Parser struct {
@@ -88,7 +88,7 @@ func (p *Parser) parseInstrucao() (Instrucao, error) {
 		return Instrucao{}, fmt.Errorf("Esperado '=' após variável")
 	}
 
-	expr, err := p.parseExpressao()
+	expr, err := p.parseExp()
 	if err != nil {
 		return Instrucao{}, err
 	}
@@ -100,7 +100,7 @@ func (p *Parser) parseInstrucao() (Instrucao, error) {
 	return Instrucao{Var: nome, Expr: expr}, nil
 }
 
-func (p *Parser) parseExpressao() ([]lexer.Token, error) {
+func (p *Parser) parseExp() ([]lexer.Token, error) {
 	saida := []lexer.Token{}
 	pilha := []lexer.Token{}
 

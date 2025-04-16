@@ -1,4 +1,6 @@
-PROGRAMA "ContaParenteses"
+PROGRAMA "Soma"
 INICIO
-y = (1 + 2) * 4
+a = 1
+b = 2
+y = a+b
 FIM

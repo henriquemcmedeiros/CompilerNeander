@@ -76,14 +76,22 @@ func GenerateASM(instrucoes []parser.Instrucao) ASMProgram {
 						prog.Code = append(prog.Code, fmt.Sprintf("ADD %s", left))
 					}
 				} else {
-					prog.Code = append(prog.Code, fmt.Sprintf("LDA %s", left))
 					switch tok.Valor {
 					case "+":
+						prog.Code = append(prog.Code, fmt.Sprintf("LDA %s", left))
 						prog.Code = append(prog.Code, fmt.Sprintf("ADD %s", right))
 					case "-":
+						negTmp := newTmp()
+						prog.Data = append(prog.Data, fmt.Sprintf("%s DB 00", negTmp))
+						
+						prog.Code = append(prog.Code, fmt.Sprintf("LDA %s", right))
 						prog.Code = append(prog.Code, "NOT")
-						prog.Code = append(prog.Code, fmt.Sprintf("ADD %s", right))
 						prog.Code = append(prog.Code, "ADD CONST_01")
+						prog.Code = append(prog.Code, fmt.Sprintf("STA %s", negTmp))
+						
+						prog.Code = append(prog.Code, fmt.Sprintf("LDA %s", left))
+						prog.Code = append(prog.Code, fmt.Sprintf("ADD %s", negTmp))
+						
 						if !constSet["CONST_01"] {
 							prog.Data = append(prog.Data, "CONST_01 DB 01")
 							constSet["CONST_01"] = true
@@ -94,6 +102,7 @@ func GenerateASM(instrucoes []parser.Instrucao) ASMProgram {
 				}
 				prog.Code = append(prog.Code, fmt.Sprintf("STA %s", tmp))
 				stack = append(stack, tmp)
+				
 			}
 		}
 

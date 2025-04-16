@@ -35,7 +35,6 @@ type Assembler struct {
 	StartPC uint8
 }
 
-// NewAssembler cria uma instância do assembler.
 func NewAssembler(tokens []lexer.Token) *Assembler {
 	return &Assembler{
 		Tokens:  tokens,
@@ -58,7 +57,7 @@ func (a *Assembler) FirstPass() error {
 		if currentSection == "CODE" {
 			switch token.Tipo {
 			case TOKEN_INSTR, TOKEN_NUMBER, TOKEN_VAR:
-				a.PC += 2 // Cada instrução, número ou referência ocupa 2 bytes
+				a.PC += 2
 			case TOKEN_DEFINE:
 				if token.Valor == "ORG" {
 					i++
@@ -70,11 +69,10 @@ func (a *Assembler) FirstPass() error {
 						return fmt.Errorf("número inválido após ORG: %s", a.Tokens[i].Valor)
 					}
 					a.PC = uint8(value)
-					a.StartPC = uint8(value) // <-- IMPORTANTE: salva para uso na SecondPass
+					a.StartPC = uint8(value)
 				}
 			}
 		} else if currentSection == "DATA" {
-			// Primeiro trata ORG
 			if token.Tipo == TOKEN_DEFINE && token.Valor == "ORG" {
 				i++
 				if i >= len(a.Tokens) {
@@ -85,10 +83,9 @@ func (a *Assembler) FirstPass() error {
 					return fmt.Errorf("número inválido após ORG: %s", a.Tokens[i].Valor)
 				}
 				a.PC = uint8(value)
-				continue // <- ESSENCIAL: evita cair no código de definição de label com o PC antigo
+				continue
 			}
 
-			// Só define a label depois que ORG já atualizou o PC
 			if token.Tipo == TOKEN_VAR {
 				a.Labels[token.Valor] = a.PC
 				continue
@@ -193,7 +190,7 @@ func (a *Assembler) SecondPass() error {
 					if err != nil {
 						return fmt.Errorf("número inválido após ORG: %s", a.Tokens[i].Valor)
 					}
-					_ = value // já usado na FirstPass
+					_ = value
 				}
 			}
 		}
@@ -216,7 +213,7 @@ func (a *Assembler) WriteMEM(filename string) error {
 	}
 	defer file.Close()
 
-	header := []uint8{0x03, 0x4E, 0x44, 0x52} // Cabeçalho fixo: 0x03 'N' 'D' 'R'
+	header := []uint8{0x03, 0x4E, 0x44, 0x52} // Cabeçalho fixo
 	output := append(header, a.Output...)
 
 	for len(output) < 516 {
