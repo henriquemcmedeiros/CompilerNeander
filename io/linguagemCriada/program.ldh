@@ -1,6 +1,5 @@
-PROGRAMA "Soma"
+PROGRAMA "Teste"
 INICIO
-a = 1
-b = 2
-y = a+b
+A = 3 + 4 - 2
+Y = (A) * 3
 FIM
