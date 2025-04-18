@@ -28,12 +28,6 @@ go run cmd/assembler/main.go io/asm/output.asm
 go run cmd/encoder/main.go io/build/output.mem
 ```
 
-## Observações
-
-- A linguagem de entrada aceita expressões matemáticas básicas com adição, subtração, multiplicação e o uso de parênteses.
-- A variável especial `RES` sempre armazenará o resultado final do programa na posição de memória `0xFF`.
-- Constantes são otimizadas para não ocuparem espaço desnecessário em `.DATA`, sendo alocadas temporariamente na seção de `.CODE`.
-
 ## Limitações Conhecidas
 
 - **Divisão**: A operação de divisão ainda não está implementada.
